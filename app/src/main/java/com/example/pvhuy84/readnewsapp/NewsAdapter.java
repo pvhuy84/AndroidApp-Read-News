@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +19,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private Context context;
     private ArrayList<News> listNews;
     private int idItemLayoutResource;
+    private MyOnClick myOnClick;
 
     public NewsAdapter(Context context, ArrayList<News> listNews, int idItemLayoutResource) {
         this.context = context;
         this.listNews = listNews;
         this.idItemLayoutResource = idItemLayoutResource;
+    }
+
+    public void setMyOnClick(MyOnClick myOnClick) {
+        this.myOnClick = myOnClick;
     }
 
     @Override
@@ -64,6 +68,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             tvNewsTitle = (TextView) itemView.findViewById(R.id.tv_news_title_value);
             tvDatePublish = (TextView) itemView.findViewById(R.id.tv_news_date_publish_value);
 //            tvNewsDescription = (TextView) itemView.findViewById(R.id.tv_news_description_value);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (myOnClick != null) {
+                        myOnClick.onClick(getLayoutPosition());
+                    }
+                }
+            });
         }
+    }
+
+    interface MyOnClick {
+        void onClick(int position);
     }
 }

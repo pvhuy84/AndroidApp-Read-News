@@ -1,5 +1,6 @@
 package com.example.pvhuy84.readnewsapp;
 
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,7 +13,7 @@ import android.view.MenuItem;
 
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TopNewsFragment.MyOnClick{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ActionBar actionBar;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         topNewsFragment = new TopNewsFragment();
         topNewsFragment.setArguments(bundle);
+        topNewsFragment.setMyOnClick(this);
 
         latestNewsFragment = new LatestNewsFragment();
         popularNewsFragment = new PopularNewsFragment();
@@ -92,5 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(News news) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("news", news);
+        Intent intent = new Intent(MainActivity.this, NewsContentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

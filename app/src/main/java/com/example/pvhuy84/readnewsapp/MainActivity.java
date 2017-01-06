@@ -1,19 +1,27 @@
 package com.example.pvhuy84.readnewsapp;
 
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.concurrent.ExecutionException;
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private ActionBar actionBar;
     private ViewPager vpListNews;
     private TabLayout tlNewsTab;
     private NewsViewPagerAdapter newsViewPagerAdapter;
+    private TopNewsFragment topNewsFragment;
+    private LatestNewsFragment latestNewsFragment;
+    private PopularNewsFragment popularNewsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +43,30 @@ public class MainActivity extends AppCompatActivity {
 
     // Initialize NewsViewPagerAdapter
     private void initializeNewsViewPagerAdapter() {
-        newsViewPagerAdapter.addFragment(new TopNewsFragment(), "Top");
-        newsViewPagerAdapter.addFragment(new LatestNewsFragment(), "Latest");
-        newsViewPagerAdapter.addFragment(new PopularNewsFragment(), "Popular");
+        Bundle bundle = new Bundle();
+        ResultForRequestNews resultForRequestNews;
+        try {
+            String url = "https://newsapi.org/v1/articles?source=cnn&sortBy=top&apiKey=56e8a396457f4becb018c72c66645e91";
+            resultForRequestNews = new GetNewsTask().execute(url).get();
+            Log.d(TAG, "initializeNewsViewPagerAdapter: " + resultForRequestNews);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            resultForRequestNews = new ResultForRequestNews();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            resultForRequestNews = new ResultForRequestNews();
+        }
+        bundle.putParcelable("ResultForRequestNews", resultForRequestNews);
+
+        topNewsFragment = new TopNewsFragment();
+        topNewsFragment.setArguments(bundle);
+
+        latestNewsFragment = new LatestNewsFragment();
+        popularNewsFragment = new PopularNewsFragment();
+
+        newsViewPagerAdapter.addFragment(topNewsFragment, "Top");
+        newsViewPagerAdapter.addFragment(latestNewsFragment, "Latest");
+        newsViewPagerAdapter.addFragment(popularNewsFragment, "Popular");
     }
 
     @Override

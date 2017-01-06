@@ -1,10 +1,13 @@
 package com.example.pvhuy84.readnewsapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by pvhuy84 on 1/6/2017.
  */
 
-public class News {
+public class News implements Parcelable {
     private String author;
     private String title;
     private String description;
@@ -20,6 +23,27 @@ public class News {
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
     }
+
+    protected News(Parcel in) {
+        author = in.readString();
+        title = in.readString();
+        description = in.readString();
+        url = in.readString();
+        urlToImage = in.readString();
+        publishedAt = in.readString();
+    }
+
+    public static final Creator<News> CREATOR = new Creator<News>() {
+        @Override
+        public News createFromParcel(Parcel in) {
+            return new News(in);
+        }
+
+        @Override
+        public News[] newArray(int size) {
+            return new News[size];
+        }
+    };
 
     public String getAuthor() {
         return author;
@@ -67,5 +91,20 @@ public class News {
 
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(author);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(url);
+        parcel.writeString(urlToImage);
+        parcel.writeString(publishedAt);
     }
 }

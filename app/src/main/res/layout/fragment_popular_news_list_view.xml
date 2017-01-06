@@ -5,8 +5,8 @@
     tools:context="com.example.pvhuy84.readnewsapp.TopNewsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:id="@+id/lv_list_news"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

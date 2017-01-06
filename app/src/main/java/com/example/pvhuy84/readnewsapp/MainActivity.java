@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ViewPager vpListNews;
     private TabLayout tlNewsTab;
+    private NewsViewPagerAdapter newsViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
         vpListNews = (ViewPager) findViewById(R.id.vp_list_news);
         tlNewsTab = (TabLayout) findViewById(R.id.tl_news_tab);
+
+        newsViewPagerAdapter = new NewsViewPagerAdapter(getSupportFragmentManager());
+        initializeNewsViewPagerAdapter();
+
+        vpListNews.setAdapter(newsViewPagerAdapter);
+        tlNewsTab.setupWithViewPager(vpListNews);
+    }
+
+    // Initialize NewsViewPagerAdapter
+    private void initializeNewsViewPagerAdapter() {
+        newsViewPagerAdapter.addFragment(new TopNewsFragment(), "Top");
+        newsViewPagerAdapter.addFragment(new LatestNewsFragment(), "Latest");
+        newsViewPagerAdapter.addFragment(new PopularNewsFragment(), "Popular");
     }
 
     @Override

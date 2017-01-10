@@ -6,7 +6,10 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.example.pvhuy84.readnewsapp.MainActivity">
-
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar_news"/>
     <android.support.v4.view.ViewPager
         android:layout_weight="1"
         android:id="@+id/vp_list_news"

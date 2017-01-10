@@ -6,4 +6,5 @@
     <dimen name="news_image_size_height">67dp</dimen>
     <dimen name="list_view_news_text_size">15sp</dimen>
     <dimen name="list_view_news_text_margin">5dp</dimen>
+    <dimen name="search_bar_text_size">22dp</dimen>
 </resources>
